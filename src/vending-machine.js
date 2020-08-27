@@ -65,13 +65,13 @@ class VendingMachine {
     }
 
     // "main" method //
-    performTransaction(sodaSelection, amountOfMoneyInserted) {
+    performTransaction(itemSelection, amountOfMoneyInserted) {
         let response = {
             itemToDispense: undefined,
             moneyToReturn: 0
         };
 
-        response.itemToDispense = this.removeItemFromInventory(sodaSelection);
+        response.itemToDispense = this.removeItemFromInventory(itemSelection);
 
         if(response.itemToDispense) { // if response.itemToDispense exists...
             if(amountOfMoneyInserted >= response.itemToDispense.price) { // extra money inserted

@@ -117,3 +117,55 @@ describe('VendingMachine.addMoneyToMachine', function(){
     expect(endingQuantity).toEqual(startingQuantity + moneyToAdd);
   });
 });
+
+describe('VendingMachine.performTransaction', function(){
+  let vendingMachine;
+  beforeEach(function(){
+    vendingMachine = new VendingMachine();
+  });
+  it('removes one object from the vending machine if funds are sufficient', function(){
+    let startingQuantity = vendingMachine.candyBars.length;
+    vendingMachine.performTransaction('candy bar', 1.00); // candy bar costs .75
+    let endingQuantity = vendingMachine.candyBars.length;
+
+    expect(endingQuantity).toEqual(startingQuantity - 1);
+  });
+  it('reinserts object into the vending machine if funds are not sufficient', function(){
+    let startingQuantity = vendingMachine.candyBars.length;
+    vendingMachine.performTransaction('candy bar', .50); // candy bar costs .75
+    let endingQuantity = vendingMachine.candyBars.length;
+
+    expect(endingQuantity).toEqual(startingQuantity);
+  });
+  it('confirms that response.ItemToDispense is undefined if funds are not sufficient', function(){
+    let response = vendingMachine.performTransaction('candy bar', .50); // candy bar costs .75
+
+    expect(response.itemToDispense).toBe(undefined);
+  });
+  it('confirms that response.moneyToReturn is correct if funds are sufficient', function(){
+    let response = vendingMachine.performTransaction('candy bar', .76); // candy bar costs .75
+    let moneyToReturn = parseFloat(response.moneyToReturn.toFixed(2));
+    expect(moneyToReturn).toEqual(.01);
+  });
+  it('confirms that response.moneyToReturn is the same as amountOfMoneyInserted if funds are not sufficient', function(){
+    let response = vendingMachine.performTransaction('candy bar', .74); // candy bar costs .75
+    let moneyToReturn = parseFloat(response.moneyToReturn.toFixed(2));
+
+    expect(moneyToReturn).toEqual(.74);
+  });
+  it('confirms that the correct amount of money is added to the vending machine during a transaction', function(){
+    let startingAmount = vendingMachine.amountOfMoneyInChange;
+    vendingMachine.performTransaction('pack of gum', 144.00); // pack of gum costs .15
+    let endingAmount = vendingMachine.amountOfMoneyInChange;
+
+    expect(endingAmount).toEqual(startingAmount + .15);
+  });
+  it('confirms that no money is added to the vending machine if funds are not sufficient', function(){
+    vendingMachine.performTransaction('candy bar', 1.00);
+    let startingAmount = vendingMachine.amountOfMoneyInChange;
+    vendingMachine.performTransaction('bag of chips', .88); // bag of chips costs .89
+    let endingAmount = vendingMachine.amountOfMoneyInChange;
+
+    expect(endingAmount).toEqual(startingAmount);
+  });
+});
