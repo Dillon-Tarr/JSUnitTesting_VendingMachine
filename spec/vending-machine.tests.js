@@ -102,3 +102,18 @@ describe('VendingMachine.addItemBackToInventory', function(){
     expect(endingQuantity).toEqual(startingQuantity + 1);
   });
 });
+
+describe('VendingMachine.addMoneyToMachine', function(){
+  let vendingMachine;
+  beforeEach(function(){
+    vendingMachine = new VendingMachine();
+  });
+  it("adds the specified amount of money to the vending machine's change", function(){
+    let startingQuantity = vendingMachine.amountOfMoneyInChange;
+    let moneyToAdd = 20.00;
+    vendingMachine.addMoneyToMachine(moneyToAdd);
+    let endingQuantity = vendingMachine.amountOfMoneyInChange;
+
+    expect(endingQuantity).toEqual(startingQuantity + moneyToAdd);
+  });
+});
