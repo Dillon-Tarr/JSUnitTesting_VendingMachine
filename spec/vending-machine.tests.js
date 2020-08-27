@@ -15,9 +15,15 @@ describe('VendingMachine constructor', function() {// SUITE
     
     expect(actualValue).toBe(expectedValue);
   });
+  it('creates a vending machine with 5 pack of gum objects', function() { // SPEC
+    let expectedValue = 5;
+    let actualValue = vendingMachine.packsOfGum.length;
+    
+    expect(actualValue).toBe(expectedValue);
+  });
 });
 
-describe('VendingMachine calculateReturnChange', function() {
+describe('VendingMachine.calculateReturnChange', function() {
   let vendingMachine;
   beforeEach(function() {
     vendingMachine = new VendingMachine();
@@ -27,5 +33,40 @@ describe('VendingMachine calculateReturnChange', function() {
     expect(vendingMachine.calculateReturnChange(.5, 1)).toBe(.5);
   });
   // money passed in equal to the cost of the item
+  it('when amount of money passed in is equal to the price of item, no change is returned', function() {
+    expect(vendingMachine.calculateReturnChange(.5, .5)).toBe(0);
+  });
   // money passed in is less than the cost of the item
+  it('when amount of money passed in is less than the price of item, no change is returned', function() {
+    expect(vendingMachine.calculateReturnChange(.5, .25)).toBe(0);
+  });
+});
+
+describe('VendingMachine.removeItemFromInventory', function(){
+  let vendingMachine;
+  beforeEach(function(){
+    vendingMachine = new VendingMachine();
+  });
+  // remove exactly one of the specified item from its row (array)
+  it('removes exactly one candy bar', function(){
+    let startingQuantity = vendingMachine.candyBars.length;
+    vendingMachine.removeItemFromInventory('candy bar');
+    let endingQuantity = vendingMachine.candyBars.length;
+
+    expect(endingQuantity).toEqual(startingQuantity - 1);
+  });
+  it('removes exactly one candy bar', function(){
+    let startingQuantity = vendingMachine.bagsOfChips.length;
+    vendingMachine.removeItemFromInventory('bag of chips');
+    let endingQuantity = vendingMachine.bagsOfChips.length;
+
+    expect(endingQuantity).toEqual(startingQuantity - 1);
+  });
+  it('removes exactly one candy bar', function(){
+    let startingQuantity = vendingMachine.packsOfGum.length;
+    vendingMachine.removeItemFromInventory('pack of gum');
+    let endingQuantity = vendingMachine.packsOfGum.length;
+    
+    expect(endingQuantity).toEqual(startingQuantity - 1);
+  });
 });
