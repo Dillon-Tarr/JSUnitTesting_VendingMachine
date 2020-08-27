@@ -48,25 +48,57 @@ describe('VendingMachine.removeItemFromInventory', function(){
     vendingMachine = new VendingMachine();
   });
   // remove exactly one of the specified item from its row (array)
-  it('removes exactly one candy bar', function(){
+  it('removes exactly one candy bar object', function(){
     let startingQuantity = vendingMachine.candyBars.length;
     vendingMachine.removeItemFromInventory('candy bar');
     let endingQuantity = vendingMachine.candyBars.length;
 
     expect(endingQuantity).toEqual(startingQuantity - 1);
   });
-  it('removes exactly one candy bar', function(){
+  it('removes exactly one bag of chips object', function(){
     let startingQuantity = vendingMachine.bagsOfChips.length;
     vendingMachine.removeItemFromInventory('bag of chips');
     let endingQuantity = vendingMachine.bagsOfChips.length;
 
     expect(endingQuantity).toEqual(startingQuantity - 1);
   });
-  it('removes exactly one candy bar', function(){
+  it('removes exactly one pack of gum object', function(){
     let startingQuantity = vendingMachine.packsOfGum.length;
     vendingMachine.removeItemFromInventory('pack of gum');
     let endingQuantity = vendingMachine.packsOfGum.length;
     
     expect(endingQuantity).toEqual(startingQuantity - 1);
+  });
+});
+
+describe('VendingMachine.addItemBackToInventory', function(){
+  let vendingMachine;
+  beforeEach(function(){
+    vendingMachine = new VendingMachine();
+  });
+  // add exactly one of the specified item to its row (array)
+  it('adds exactly one candy bar object', function(){
+    let startingQuantity = vendingMachine.candyBars.length;
+    let candyBar = new CandyBar("candy bar", .75);
+    vendingMachine.addItemBackToInventory(candyBar);
+    let endingQuantity = vendingMachine.candyBars.length;
+
+    expect(endingQuantity).toEqual(startingQuantity + 1);
+  });
+  it('adds exactly one bag of chips object', function(){
+    let startingQuantity = vendingMachine.bagsOfChips.length;
+    let bagOfChips = new BagOfChips("bag of chips", .89);
+    vendingMachine.addItemBackToInventory(bagOfChips);
+    let endingQuantity = vendingMachine.bagsOfChips.length;
+
+    expect(endingQuantity).toEqual(startingQuantity + 1);
+  });
+  it('adds exactly one pack of gum object', function(){
+    let startingQuantity = vendingMachine.packsOfGum.length;
+    let packOfGum = new PackOfGum("pack of gum", .15);
+    vendingMachine.addItemBackToInventory(packOfGum);
+    let endingQuantity = vendingMachine.packsOfGum.length;
+    
+    expect(endingQuantity).toEqual(startingQuantity + 1);
   });
 });
